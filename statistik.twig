@@ -1,0 +1,79 @@
+{% spaceless %}
+
+{% set sum = 0 %}
+{% set count = 0 %}
+{% for episode in podcast.episodes %}
+   {% set sum = sum + episode.duration.totalMilliseconds %} 
+   {% set count = count + 1 %}
+{% endfor %}
+
+<p>Bisher haben wir <b>{{ count }} Folgen</b> veröffentlicht die <b>im Durchschnitt {{ (sum / count / 1000 / 60)|round(0, 'floor') }} Minuten</b> lang sind. In Summe haben wir schon <b>{{ (sum / 1000 / 60)|round(0, 'floor') }} Minuten gepodcasted</b>, das sind <b>{{ (sum / 1000 / 60 / 60)|round(2) }} Stunden</b>.</p>
+
+<h2>Downloads</h2>
+{% set latest = podcast.episodes[0] %}
+<p>Unsere aktuelle Folge (<a href="{{ latest.url }}"><b>{{ latest.title|split(' ')|first }}</b></a>) hat bisher <b>{{ latest.total_downloads }} Downloads</b>. {% if not latest.meta('_podlove_downloads_2d') is empty %} In den ersten 48 Stunden waren es <b>{{  latest.meta('_podlove_downloads_2d') }} Abrufe</b>.{% endif %}</p>
+
+<script src="https://unpkg.com/chartkick@4.0.4/dist/chartkick.js"></script>
+<script src="https://unpkg.com/chart.js@3.3.2/dist/chart.js"></script>
+<script src="https://unpkg.com/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.js"></script>
+
+<div id="column" style="height: 300px;"></div>
+<script>
+    new Chartkick.ColumnChart("column", [
+        {% for episode in podcast.episodes({publicationDate: 'title', 'order': 'ASC'})|filter(e => e.total_downloads > 0) %}
+            ["{{ episode.title|split(' ')|first }}", {{ episode.total_downloads }}],
+        {% endfor %}
+    ]);
+</script>
+
+<p></p>
+<p>Es werden Downloadversuche gezählt, wobei Dopplungen gefiltert werden. Wir können nicht unterschieden ob ein Download abgeschlossen oder die Folge angehört wurde (siehe <a href="https://docs.podlove.org/podlove-publisher/reference/download-analytics">Dokumentation vom Podlove-Publisher</a>). Hinzu kommen noch die HörerInnen von Spotify. Allerdings sind die Zahlen nicht direkt vergleichbar da Spotify anders zählt. Nach zwei Wochen haben wir dort typischerweise XX begonnene Wiedergaben und YY Streams (siehe <a href="https://support.spotifyforpodcasters.com/hc/de/articles/360043988952-Daten-zu-begonnenen-Wiedergaben-und-Streams">Dokumentation von Spotify</a>).</p>
+
+<h2>Unsere beliebtesten Folgen</h2>
+<ul>
+    {% for episode in podcast.episodes|filter(e => e.total_downloads > 0)|sort((b, a) => a.total_downloads <=> b.total_downloads)|slice(0,5) %}
+        <li>
+            <a href="{{ episode.url }}"><b>{{ episode.title|split(' - ')|first }}</b></a> ({{ episode.total_downloads }} Downloads)
+        </li>
+    {% endfor %}
+</ul>
+
+<h2>Unsere Folgen mit Potential</h2>
+<ul>
+    {% for episode in podcast.episodes|filter(e => e.total_downloads > 0)|sort((a, b) => a.total_downloads <=> b.total_downloads)|slice(0,5) %}
+        <li>
+            <a href="{{ episode.url }}"><b>{{ episode.title|split(' - ')|first }}</b></a> ({{ episode.total_downloads }} Downloads)
+        </li>
+    {% endfor %}
+</ul>
+
+<h2>Unsere längsten Folgen</h2>
+<ul>
+    {% for episode in podcast.episodes|filter(e => e.duration.totalMilliseconds > 0)|sort((b, a) => a.duration.totalMilliseconds <=> b.duration.totalMilliseconds)|slice(0,5) %}
+        <li>
+            <a href="{{ episode.url }}"><b>{{ episode.title|split(' - ')|first }}</b></a> ({{ episode.duration }})
+        </li>
+    {% endfor %}
+</ul>
+
+<h2>Unsere kürzesten Folgen</h2>
+<ul>
+    {% for episode in podcast.episodes|filter(e => e.duration.totalMilliseconds > 0)|sort((a, b) => a.duration.totalMilliseconds <=> b.duration.totalMilliseconds)|slice(0,5) %}
+        <li>
+            <a href="{{ episode.url }}"><b>{{ episode.title|split(' - ')|first }}</b></a> ({{ episode.duration }})
+        </li>
+    {% endfor %}
+</ul>
+
+
+<h2>Unsere meist diskutierten Folgen</h2>
+<ul>
+    {% for episode in podcast.episodes|sort((b, a) => a.post.comment_count <=> b.post.comment_count)|slice(0,5) %}
+        <li>
+            <a href="{{ episode.url }}#comments"><b>{{ episode.title|split(' - ')|first }}</b></a> ({{ episode.post.comment_count }} Kommentare)
+            
+        </li>
+    {% endfor %}
+</ul>
+
+{% endspaceless %}
