@@ -30,7 +30,7 @@
 <p></p>
 <p>Gezählt werden <a href="https://docs.podlove.org/podlove-publisher/reference/download-analytics">Downloadversuche</a>. Hinzu kommen nach zwei Wochen etwa <b>135 <a href="https://support.spotifyforpodcasters.com/hc/de/articles/360043988952-Daten-zu-begonnenen-Wiedergaben-und-Streams">Streams</a> auf Spotify</b>.</p>
 
-<h2>Unsere beliebtesten Folgen</h2>
+<h3>Unsere beliebtesten Folgen</h3>
 <ul>
     {% for episode in podcast.episodes|filter(e => e.total_downloads > 0)|sort((b, a) => a.total_downloads <=> b.total_downloads)|slice(0,5) %}
         <li>
@@ -39,7 +39,7 @@
     {% endfor %}
 </ul>
 
-<h2>Unsere Folgen mit Potential</h2>
+<h3>Unsere Folgen mit Potential</h3>
 <ul>
     {% for episode in podcast.episodes|filter(e => e.total_downloads > 0)|sort((a, b) => a.total_downloads <=> b.total_downloads)|slice(0,5) %}
         <li>
@@ -48,7 +48,18 @@
     {% endfor %}
 </ul>
 
-<h2>Unsere längsten Folgen</h2>
+<h2>Folgenlänge</h2>
+
+<div id="episode-length" style="height: 300px;"></div>
+<script>
+    new Chartkick.ColumnChart("episode-length", [
+        {% for episode in podcast.episodes({publicationDate: 'title', 'order': 'ASC'})|filter(e => e.total_downloads > 0) %}
+            ["{{ episode.title|split(' ')|first }}", {{ (episode.duration.totalMilliseconds / 1000 / 60)|round(0, 'floor')  }}],
+        {% endfor %}
+    ]);
+</script>
+
+<h3>Unsere längsten Folgen</h3>
 <ul>
     {% for episode in podcast.episodes|filter(e => e.duration.totalMilliseconds > 0)|sort((b, a) => a.duration.totalMilliseconds <=> b.duration.totalMilliseconds)|slice(0,5) %}
         <li>
@@ -57,7 +68,7 @@
     {% endfor %}
 </ul>
 
-<h2>Unsere kürzesten Folgen</h2>
+<h3>Unsere kürzesten Folgen</h3>
 <ul>
     {% for episode in podcast.episodes|filter(e => e.duration.totalMilliseconds > 0)|sort((a, b) => a.duration.totalMilliseconds <=> b.duration.totalMilliseconds)|slice(0,5) %}
         <li>
@@ -80,7 +91,7 @@
 <h2>Unterstützt durch</h2>
 <div id="support" style="height: 300px;"></div>
 <script>
-    new Chartkick.PieChart("support", [["Flo", 2],["Wikipedia", 1],["Community", 1],["Geld", 0]]);
+    new Chartkick.PieChart("support", [["Flo", 2],["Wikipedia", 1],["Community", 1],["Werbung", 0]]);
 </script>
 
 <p></p>
