@@ -1,5 +1,3 @@
-{% spaceless %}
-
 {% set sum = 0 %}
 {% set count = 0 %}
 {% for episode in podcast.episodes %}
@@ -13,13 +11,16 @@
 {% set latest = podcast.episodes[0] %}
 <p>Unsere aktuelle Folge (<a href="{{ latest.url }}"><b>{{ latest.title|split(' ')|first }}</b></a>) hat bisher <b>{{ latest.total_downloads }} Downloads</b>. {% if not latest.meta('_podlove_downloads_2d') is empty %} In den ersten 48 Stunden waren es <b>{{  latest.meta('_podlove_downloads_2d') }} Abrufe</b>.{% endif %}</p>
 
-<script src="https://unpkg.com/chartkick@4.0.4/dist/chartkick.js"></script>
-<script src="https://unpkg.com/chart.js@3.3.2/dist/chart.js"></script>
-<script src="https://unpkg.com/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.js"></script>
+<!-- <script src="https://unpkg.com/chartkick@4.0.4/dist/chartkick.js"></script> -->
+<script src="/wp-content/uploads/js/chartkick.js"></script>
+<!-- <script src="https://unpkg.com/chart.js@3.3.2/dist/chart.js"></script> -->
+<script src="/wp-content/uploads/js/chart.js"></script>
+<!-- <script src="https://unpkg.com/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.js"></script> -->
+<script src="/wp-content/uploads/js/chartjs-adapter-date-fns.bundle.js"></script>
 
-<div id="column" style="height: 300px;"></div>
+<div id="all-episodes" style="height: 300px;"></div>
 <script>
-    new Chartkick.ColumnChart("column", [
+    new Chartkick.ColumnChart("all-episodes", [
         {% for episode in podcast.episodes({publicationDate: 'title', 'order': 'ASC'})|filter(e => e.total_downloads > 0) %}
             ["{{ episode.title|split(' ')|first }}", {{ episode.total_downloads }}],
         {% endfor %}
@@ -27,7 +28,7 @@
 </script>
 
 <p></p>
-<p>Es werden Downloadversuche gezählt, wobei Dopplungen gefiltert werden. Wir können nicht unterschieden ob ein Download abgeschlossen oder die Folge angehört wurde (siehe <a href="https://docs.podlove.org/podlove-publisher/reference/download-analytics">Dokumentation vom Podlove-Publisher</a>). Hinzu kommen noch die HörerInnen von Spotify. Allerdings sind die Zahlen nicht direkt vergleichbar da Spotify anders zählt. Nach zwei Wochen haben wir dort typischerweise XX begonnene Wiedergaben und YY Streams (siehe <a href="https://support.spotifyforpodcasters.com/hc/de/articles/360043988952-Daten-zu-begonnenen-Wiedergaben-und-Streams">Dokumentation von Spotify</a>).</p>
+<p>Gezählt werden <a href="https://docs.podlove.org/podlove-publisher/reference/download-analytics">Downloadversuche</a>. Hinzu kommen nach zwei Wochen etwa <b>135 <a href="https://support.spotifyforpodcasters.com/hc/de/articles/360043988952-Daten-zu-begonnenen-Wiedergaben-und-Streams">Streams</a> auf Spotify</b>.</p>
 
 <h2>Unsere beliebtesten Folgen</h2>
 <ul>
@@ -76,4 +77,11 @@
     {% endfor %}
 </ul>
 
-{% endspaceless %}
+<h2>Unterstützt durch</h2>
+<div id="support" style="height: 300px;"></div>
+<script>
+    new Chartkick.PieChart("support", [["Flo", 2],["Wikipedia", 1],["Community", 1],["Geld", 0]]);
+</script>
+
+<p></p>
+<p>Ihr wollt die Statistik auch für euren Podlove-Podcast? Das <a href="https://github.com/poschi3/podlove-publisher-templates/blob/main/statistik.twig">Template findet ihr auf Github</a>.</p>
