@@ -11,12 +11,14 @@
 {% set latest = podcast.episodes[0] %}
 <p>Unsere aktuelle Folge (<a href="{{ latest.url }}"><b>{{ latest.title }}</b></a>) hat bisher <b>{{ latest.total_downloads }} Downloads</b>. {% if not latest.meta('_podlove_downloads_2d') is empty %} In den ersten 48 Stunden waren es <b>{{  latest.meta('_podlove_downloads_2d') }} Abrufe</b>.{% endif %}</p>
 
-<!-- <script src="https://unpkg.com/chartkick@4.0.4/dist/chartkick.js"></script> -->
+<script src="https://unpkg.com/chartkick@4.0.4/dist/chartkick.js"></script>
+<script src="https://unpkg.com/chart.js@3.3.2/dist/chart.js"></script
+<script src="https://unpkg.com/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.js"></script>
+<!--
 <script src="/wp-content/uploads/js/chartkick.js"></script>
-<!-- <script src="https://unpkg.com/chart.js@3.3.2/dist/chart.js"></script> -->
 <script src="/wp-content/uploads/js/chart.js"></script>
-<!-- <script src="https://unpkg.com/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.js"></script> -->
 <script src="/wp-content/uploads/js/chartjs-adapter-date-fns.bundle.js"></script>
+-->
 
 <div id="all-episodes" style="height: 300px;"></div>
 <script>
