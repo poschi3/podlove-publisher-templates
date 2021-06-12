@@ -12,6 +12,6 @@ Weite Infos in der [Podlove-Publisher Doku](https://docs.podlove.org/podlove-pub
 
 ## Templates
 
-### Statistik
+### Statistik ([Demo](https://podcast.entbehrlich.es/statistik/))
 
 Statistik über Downloads und Folgenlängen
