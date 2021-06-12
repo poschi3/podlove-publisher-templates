@@ -22,7 +22,7 @@
 <script>
     new Chartkick.ColumnChart("all-episodes", [
         {% for episode in podcast.episodes({publicationDate: 'title', 'order': 'ASC'})|filter(e => e.total_downloads > 0) %}
-            ["{{ episode.title|split(' ')|first }}", {{ episode.total_downloads }}],
+            ["{{ episode.title|split(' ')|first|escape('js') }}", {{ episode.total_downloads|escape('js') }}],
         {% endfor %}
     ]);
 </script>
@@ -54,7 +54,7 @@
 <script>
     new Chartkick.ColumnChart("episode-length", [
         {% for episode in podcast.episodes({publicationDate: 'title', 'order': 'ASC'})|filter(e => e.total_downloads > 0) %}
-            ["{{ episode.title|split(' ')|first }}", {{ (episode.duration.totalMilliseconds / 1000 / 60)|round(0, 'floor')  }}],
+            ["{{ episode.title|split(' ')|first|escape('js') }}", {{ (episode.duration.totalMilliseconds / 1000 / 60)|round(0, 'floor')  }}],
         {% endfor %}
     ]);
 </script>
@@ -95,4 +95,4 @@
 </script>
 
 <p></p>
-<p>Ihr wollt die Statistik auch für euren Podlove-Podcast? Das <a href="https://github.com/poschi3/podlove-publisher-templates/blob/main/statistik.twig">Template findet ihr auf Github</a>.</p>
+<p>Ihr wollt die Statistik auch für euren Podlove-Podcast? Das <a href="https://github.com/poschi3/podlove-publisher-templates">Template findet ihr auf Github</a>.</p>
