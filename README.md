@@ -7,7 +7,7 @@ Podlove-Publisher Templates die wir für den [Entbehrliches-Podcast](https://pod
 * In Wordpress unter `Podlove` -> `Templates` ein neues Template anlegen
 * Inhalt der twig-Datei in das Templates kopieren
 * Template an den eigenen Podcast anpassen!
-* Template mittels Shortcode (z.B. `[podlove-template template="default"]`) auf einer Wordpress-Seite einbinden
+* Template mittels Shortcode (z.B. `[podlove-template template="statistik"]`) auf einer Wordpress-Seite einbinden
 
 Weite Infos in der [Podlove-Publisher Doku](https://docs.podlove.org/podlove-publisher/guides/templates).
 
