@@ -36,3 +36,5 @@ Statistik über Downloads und Folgenlängen
 ### Archiv ([Demo](https://podcast.entbehrlich.es/archiv/))
 
 Seite mit allen Folgen, gruppiert nach Jahr
+
+![grafik](https://github.com/poschi3/podlove-publisher-templates/assets/825911/5838e093-9cd2-4cc7-82ac-17e51a760876)
