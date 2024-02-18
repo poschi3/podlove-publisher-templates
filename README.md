@@ -33,3 +33,6 @@ Statistik über Downloads und Folgenlängen
 
 ![grafik](https://user-images.githubusercontent.com/825911/121786046-c76d0400-cbbd-11eb-8c35-2c941e530a2d.png)
 
+### Archiv ([Demo](https://podcast.entbehrlich.es/archiv/))
+
+Seite mit allen Folgen, gruppiert nach Jahr

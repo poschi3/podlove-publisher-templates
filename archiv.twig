@@ -1,0 +1,23 @@
+{% set year = 'now'|date('Y') %}
+
+<h2>{{ year }}</h2>
+
+<ul>
+    {% for episode in podcast.episodes %}
+        {% set actYear %}{{ episode.publicationDate.format('Y') }}{% endset %}
+
+        {% if year != actYear %}
+            </ul>
+            
+            <h2>{{ actYear}}</h2>
+            <ul>
+            
+        {% endif %}
+        {% set year = actYear %}
+
+        <li>
+            <a href="{{ episode.url }}"><b>{{ episode.title}}</b></a>
+          
+        </li>
+    {% endfor %}
+</ul>
